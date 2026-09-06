@@ -19,7 +19,7 @@ const DEFAULT_CATALOG = [
             "Certificación de pureza y estabilidad reológica"
         ],
         imageUrl: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80",
-        whatsappText: "Hola, me gustaría solicitar una cotización y ficha técnica sobre el Almidón para Industria Papelera.",
+        whatsappText: "Hola, buen día. Me gustaría obtener más información sobre Almidón para Industria Papelera. ¿Podrían proporcionarme detalles, por favor? ¡Gracias!",
         featured: true,
         active: true,
         createdAt: "2026-01-15"
@@ -39,7 +39,7 @@ const DEFAULT_CATALOG = [
             "Resistencia extrema al desgaste y a la fatiga mecánica"
         ],
         imageUrl: "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80",
-        whatsappText: "Hola, me gustaría solicitar informes técnicos y cotización para las Cuchillas de Corte de Papel.",
+        whatsappText: "Hola, buen día. Me gustaría obtener más información sobre Cuchillas para Cortar Papel y Cartón. ¿Podrían proporcionarme detalles, por favor? ¡Gracias!",
         featured: true,
         active: true,
         createdAt: "2026-01-20"
@@ -59,7 +59,7 @@ const DEFAULT_CATALOG = [
             "Kits personalizados según la matriz de riesgos de tu planta"
         ],
         imageUrl: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80",
-        whatsappText: "Hola, requiero cotización y catálogo corporativo de Equipos de Protección de Seguridad (EPP).",
+        whatsappText: "Hola, buen día. Me gustaría obtener más información sobre Equipo de Protección de Seguridad (EPP). ¿Podrían proporcionarme detalles, por favor? ¡Gracias!",
         featured: true,
         active: true,
         createdAt: "2026-02-01"
@@ -79,7 +79,7 @@ const DEFAULT_CATALOG = [
             "Monitoreo analítico, pólizas de mantenimiento preventivo y corretaje normativo"
         ],
         imageUrl: "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=800&q=80",
-        whatsappText: "Hola, me gustaría agendar una asesoría técnica y diagnóstico para Tratamiento de Aguas en mi empresa.",
+        whatsappText: "Hola, buen día. Me gustaría obtener más información sobre Tratamiento de Agua para Empresas e Industrias. ¿Podrían proporcionarme detalles, por favor? ¡Gracias!",
         featured: true,
         active: true,
         createdAt: "2026-02-10"
@@ -87,6 +87,16 @@ const DEFAULT_CATALOG = [
 ];
 
 const STORAGE_KEY = "torimex_catalog_data";
+
+/**
+ * Genera el mensaje estándar automatizado para WhatsApp o Correo
+ */
+function buildAutoContactMessage(itemName) {
+    if (itemName && itemName.trim()) {
+        return `Hola, buen día. Me gustaría obtener más información sobre ${itemName.trim()}. ¿Podrían proporcionarme detalles, por favor? ¡Gracias!`;
+    }
+    return "Hola, buen día. Me gustaría obtener más información sobre. ¿Podrían proporcionarme detalles, por favor? ¡Gracias!";
+}
 
 /**
  * Obtiene la lista actual de items (desde localStorage o catálogo inicial)

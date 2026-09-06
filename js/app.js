@@ -20,10 +20,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalDesc = document.getElementById("modalDesc");
     const modalSpecsList = document.getElementById("modalSpecsList");
     const modalWhatsAppBtn = document.getElementById("modalWhatsAppBtn");
+    const modalMailBtn = document.getElementById("modalMailBtn");
 
     let currentCategory = "todos";
     let searchQuery = "";
     const WHATSAPP_PHONE = "5214424470567";
+    const EMAIL_CORP = "atoriz485@gmail.com";
 
     // 1. Renderizado del Catálogo
     function renderCatalog() {
@@ -67,8 +69,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const typeLabel = isService ? "Servicio" : "Producto";
             const defaultImg = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80";
             const imgSrc = item.imageUrl || defaultImg;
-            const waText = encodeURIComponent(item.whatsappText || `Hola, me gustaría cotizar: ${item.name}`);
-            const waLink = `https://wa.me/${WHATSAPP_PHONE}?text=${waText}`;
+
+            // Mensaje automático personalizado por producto
+            const autoMsg = (item.whatsappText && item.whatsappText.trim()) 
+                ? item.whatsappText 
+                : buildAutoContactMessage(item.name);
+            const waLink = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(autoMsg)}`;
 
             // Vista previa de especificaciones (primeras 2)
             const specsChips = (item.specs && item.specs.length > 0) 
@@ -93,12 +99,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
 
                         <div class="card-actions">
-                            <button class="btn-details" onclick="openProductModal('${item.id}')">
+                            <button class="btn-details" onclick="openProductModal('${item.id}')" title="Ver detalles técnicos">
                                 Ver Ficha
                             </button>
-                            <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-quote">
+                            <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-quote" title="Contactar sobre este producto">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/></svg>
-                                Cotizar
+                                Contacto
                             </a>
                         </div>
                     </div>
@@ -145,9 +151,20 @@ document.addEventListener("DOMContentLoaded", () => {
             modalSpecsList.innerHTML = "<li>Especificaciones técnicas disponibles bajo cotización.</li>";
         }
 
-        // Configurar botón WhatsApp del modal
-        const waText = encodeURIComponent(item.whatsappText || `Hola, me interesa obtener información técnica detallada sobre ${item.name}`);
-        modalWhatsAppBtn.href = `https://wa.me/${WHATSAPP_PHONE}?text=${waText}`;
+        // Mensaje automatizado específico de este producto
+        const autoMsg = (item.whatsappText && item.whatsappText.trim()) 
+            ? item.whatsappText 
+            : buildAutoContactMessage(item.name);
+        
+        // Enlace WhatsApp automatizado
+        modalWhatsAppBtn.href = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(autoMsg)}`;
+
+        // Enlace Correo automatizado
+        if (modalMailBtn) {
+            const mailSubject = encodeURIComponent(`Consulta: ${item.name}`);
+            const mailBody = encodeURIComponent(autoMsg);
+            modalMailBtn.href = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL_CORP}&su=${mailSubject}&body=${mailBody}`;
+        }
 
         detailModal.classList.add("active");
         document.body.style.overflow = "hidden";
@@ -200,8 +217,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const topic = document.getElementById("contactTopic").value;
             const message = document.getElementById("contactMessage").value.trim();
 
-            const text = encodeURIComponent(`*Consulta Web - Industrial ToriMex*\n*Nombre:* ${name}\n*Correo:* ${email}\n*Interés:* ${topic}\n*Mensaje:* ${message}`);
-            window.open(`https://wa.me/${WHATSAPP_PHONE}?text=${text}`, "_blank");
+            const autoMsg = buildAutoContactMessage(topic);
+            const fullMessage = `${autoMsg}\n\n*Datos de contacto:*\n*Nombre / Empresa:* ${name}\n*Correo:* ${email}\n*Detalles adicionales:* ${message}`;
+            
+            window.open(`https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(fullMessage)}`, "_blank");
 
             contactForm.reset();
             alert("¡Gracias por su mensaje! Lo redirigimos a nuestro WhatsApp corporativo para atención inmediata.");

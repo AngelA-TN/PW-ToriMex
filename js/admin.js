@@ -336,7 +336,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const fullDesc = itemFullDescInput.value.trim() || shortDesc;
             const specs = itemSpecsInput.value.split("\n").map(s => s.trim()).filter(s => s.length > 0);
             const imageUrl = editingImageBase64 || itemImageUrlInput.value.trim() || "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80";
-            const whatsappText = itemWhatsappInput.value.trim() || `Hola, solicito informes y cotización sobre ${name}`;
+            const whatsappText = itemWhatsappInput.value.trim() || buildAutoContactMessage(name);
             const active = itemActiveInput.checked;
 
             if (id) {
