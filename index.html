@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrial ToriMex | Insumos Papeleros, Seguridad Industrial y Tratamiento de Agua</title>
+    <meta name="description" content="Suministro de insumos especializados para la industria papelera, equipo de protección personal (EPP) y soluciones avanzadas de tratamiento de agua industrial en México.">
+    <meta name="theme-color" content="#0F172A">
+    
+    <!-- Hojas de Estilo -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Favicon SVG en línea -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23059669'/><text x='50%' y='65%' font-size='50' font-weight='800' fill='white' text-anchor='middle'>IT</text></svg>">
+</head>
+<body>
+
+    <!-- ==========================================
+         HEADER / NAVEGACIÓN CORPORATIVA
+         ========================================== -->
+    <header>
+        <div class="header-container">
+            <a href="#nosotros" class="logo-link">
+                <div class="logo-badge">IT</div>
+                <div class="logo-text">
+                    <h1>Industrial ToriMex</h1>
+                    <span>Soluciones B2B & Ambientales</span>
+                </div>
+            </a>
+
+            <button class="mobile-toggle" id="mobileMenuToggle" aria-label="Abrir Menú de Navegación">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#catalogo">Productos & Servicios</a></li>
+                    <li><a href="#por-que-nosotros">Ventajas</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                    <li>
+                        <a href="https://wa.me/5214424470567?text=Hola,%20me%20gustar%C3%ADa%20recibir%20informaci%C3%B3n%20general%20sobre%20sus%20soluciones." target="_blank" rel="noopener noreferrer" class="nav-cta-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/></svg>
+                            WhatsApp Directo
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==========================================
+         HERO SECTION / PROPUESTA DE VALOR
+         ========================================== -->
+    <section id="nosotros" class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span>Tecnología & Sustentabilidad Industrial</span>
+            </div>
+            <h2>Innovación, Seguridad y Sostenibilidad para tu <span class="highlight">Industria</span></h2>
+            <p>Suministramos insumos de alto rendimiento para el sector papelero, equipos de protección certificados de máxima durabilidad y tecnologías avanzadas de tratamiento de agua para cumplir la normatividad ambiental y reducir costos operativos.</p>
+            
+            <div class="hero-buttons">
+                <a href="#catalogo" class="btn btn-primary">
+                    Explorar Catálogo de Soluciones
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <a href="#contacto" class="btn btn-secondary">
+                    Solicitar Cotización Inmediata
+                </a>
+            </div>
+
+            <!-- KPIs de Confianza y Solidez -->
+            <div class="hero-metrics">
+                <div class="metric-card">
+                    <div class="metric-num">+10</div>
+                    <div class="metric-label">Años de Experiencia Industrial</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-num">100%</div>
+                    <div class="metric-label">Cumplimiento Normativo (STPS/NOM)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-num">Nacional</div>
+                    <div class="metric-label">Cobertura de Envío en México</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-num">24/7</div>
+                    <div class="metric-label">Soporte Técnico y Asesoría</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SECCIÓN DE CATÁLOGO DINÁMICO
+         ========================================== -->
+    <section id="catalogo" class="section-container">
+        <div class="section-header">
+            <span class="section-tag">Portafolio Especializado</span>
+            <h2 class="section-title">Productos y Servicios de Grado Industrial</h2>
+            <p class="section-desc">Soluciones técnicas diseñadas para optimizar tus procesos productivos, proteger a tus colaboradores y salvaguardar los recursos hídricos.</p>
+        </div>
+
+        <!-- Barra interactiva de filtros y búsqueda -->
+        <div class="catalog-controls">
+            <div class="filter-group">
+                <button class="filter-btn active" data-category="todos">Todos</button>
+                <button class="filter-btn" data-category="papelera">Industria Papelera</button>
+                <button class="filter-btn" data-category="seguridad">Seguridad (EPP)</button>
+                <button class="filter-btn" data-category="ambiental">Tratamiento de Agua</button>
+                <button class="filter-btn" data-category="servicios">Solo Servicios</button>
+            </div>
+
+            <div class="search-box">
+                <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="searchInput" placeholder="Buscar por producto, material o servicio...">
+            </div>
+        </div>
+
+        <!-- Rejilla reactiva donde se inyectan las tarjetas desde js/app.js -->
+        <div id="catalogGrid" class="catalog-grid">
+            <!-- Renderizado dinámico -->
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SECCIÓN DE VENTAJAS COMPETITIVAS
+         ========================================== -->
+    <section id="por-que-nosotros" class="why-us-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Por Qué Elegirnos</span>
+                <h2 class="section-title">Excelencia Operativa y Compromiso Ambiental</h2>
+                <p class="section-desc">Nos convertimos en un aliado estratégico para tu planta, garantizando insumos confiables y soluciones eficientes.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-box">
+                    <div class="feature-icon-wrap">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <h3>Calidad Certificada</h3>
+                    <p>Todos nuestros productos e insumos cumplen con estrictas normas de resistencia física, composición química y seguridad laboral.</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon-wrap">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                    </div>
+                    <h3>Enfoque Sustentable</h3>
+                    <p>Tecnologías de vanguardia para el tratamiento, neutralización y recirculación de aguas residuales industriales.</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon-wrap">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                    </div>
+                    <h3>Logística Confiable</h3>
+                    <p>Capacidad de distribución a nivel nacional con tiempos de entrega garantizados para evitar paros de línea productiva.</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon-wrap">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                    </div>
+                    <h3>Asesoría Especializada</h3>
+                    <p>Acompañamiento técnico directo por ingenieros y especialistas para la selección exacta de insumos y equipos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SECCIÓN DE CONTACTO
+         ========================================== -->
+    <section id="contacto" class="section-container">
+        <div class="section-header">
+            <span class="section-tag">Atención Personalizada</span>
+            <h2 class="section-title">Contáctanos para Cotizaciones y Asesoría</h2>
+            <p class="section-desc">Estamos a tu disposición a través de nuestros canales corporativos directos.</p>
+        </div>
+
+        <div class="contact-grid">
+            <!-- Tarjeta de canales directos -->
+            <div class="contact-info-card">
+                <div>
+                    <h3>Atención Inmediata B2B</h3>
+                    <p>Conéctate con un asesor comercial o técnico para recibir cotizaciones formales, fichas técnicas o programar una visita a planta.</p>
+                    
+                    <div class="contact-channels">
+                        <div class="channel-item">
+                            <div class="channel-icon">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            </div>
+                            <div class="channel-text">
+                                <strong>Línea Telefónica y WhatsApp</strong>
+                                <a href="https://wa.me/5214424470567" target="_blank" rel="noopener noreferrer">+52 (442) 447-0567</a>
+                            </div>
+                        </div>
+
+                        <div class="channel-item">
+                            <div class="channel-icon">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            </div>
+                            <div class="channel-text">
+                                <strong>Correo Corporativo</strong>
+                                <a href="mailto:atoriz485@gmail.com">atoriz485@gmail.com</a>
+                            </div>
+                        </div>
+
+                        <div class="channel-item">
+                            <div class="channel-icon">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            </div>
+                            <div class="channel-text">
+                                <strong>Ubicación & Cobertura</strong>
+                                <span>Querétaro / Cobertura Nacional en todo México</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-direct-actions">
+                    <a href="https://wa.me/5214424470567?text=Hola,%20solicito%20atenci%C3%B3n%20comercial%20inmediata." target="_blank" rel="noopener noreferrer" class="btn-contact-wa">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/></svg>
+                        Escribir por WhatsApp
+                    </a>
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=atoriz485@gmail.com&su=Solicitud%20de%20Cotizaci%C3%B3n%20Industrial%20ToriMex" target="_blank" rel="noopener noreferrer" class="btn-contact-mail">
+                        Enviar por Gmail
+                    </a>
+                </div>
+            </div>
+
+            <!-- Formulario de solicitud rápida -->
+            <div class="contact-form-card">
+                <h3>Solicitud de Cotización</h3>
+                <p>Completa el formulario y nuestro equipo técnico te responderá con una propuesta personalizada.</p>
+
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label class="form-label" for="contactName">Nombre o Empresa *</label>
+                        <input type="text" id="contactName" class="form-input" placeholder="Ej. Ing. Carlos Gómez / Papelera Nacional" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="contactEmail">Correo Electrónico Corporativo *</label>
+                        <input type="email" id="contactEmail" class="form-input" placeholder="carlos@empresa.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="contactTopic">Área de Interés *</label>
+                        <select id="contactTopic" class="form-select" required>
+                            <option value="Insumos Papeleros (Almidón / Químicos)">Insumos Papeleros (Almidón / Químicos)</option>
+                            <option value="Cuchillas de Corte Industrial">Cuchillas de Corte Industrial</option>
+                            <option value="Equipos de Protección Personal (EPP)">Equipos de Protección Personal (EPP)</option>
+                            <option value="Tratamiento de Agua Residual / PTAR">Tratamiento de Agua Residual / PTAR</option>
+                            <option value="Consulta General / Otro">Consulta General / Otro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="contactMessage">Detalles del Requerimiento *</label>
+                        <textarea id="contactMessage" class="form-textarea" placeholder="Describa volúmenes requeridos, especificaciones o dudas técnicas..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        Enviar Solicitud a WhatsApp
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         MODAL DE DETALLES Y FICHA TÉCNICA
+         ========================================== -->
+    <div id="detailModal" class="modal-overlay" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="modalCloseBtn" aria-label="Cerrar modal">&times;</button>
+            <div class="modal-grid">
+                <div class="modal-img-wrap">
+                    <img id="modalImage" src="" alt="Vista del producto">
+                </div>
+                <div class="modal-info">
+                    <span id="modalBadge" class="modal-badge">Categoría</span>
+                    <h2 id="modalTitle" class="modal-title">Nombre del Producto</h2>
+                    <p id="modalDesc" class="modal-desc">Descripción completa y detallada...</p>
+                    
+                    <h3 class="modal-specs-title">Aspectos Técnicos y Beneficios:</h3>
+                    <ul id="modalSpecsList" class="modal-specs-list">
+                        <!-- Items inyectados dinámicamente -->
+                    </ul>
+
+                    <div class="modal-actions">
+                        <a id="modalWhatsAppBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-quote" style="flex: 1;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/></svg>
+                            Cotizar este Producto
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         BOTÓN FLOTANTE DE WHATSAPP
+         ========================================== -->
+    <a href="https://wa.me/5214424470567?text=Hola,%20me%20gustar%C3%ADa%20recibir%20asesor%C3%ADa%20comercial%20inmediata." target="_blank" rel="noopener noreferrer" class="floating-whatsapp" aria-label="Contactar por WhatsApp">
+        <span class="floating-tooltip">¿Dudas? ¡Escríbenos en WhatsApp!</span>
+        <svg viewBox="0 0 24 24">
+            <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/>
+        </svg>
+    </a>
+
+    <!-- ==========================================
+         FOOTER CORPORATIVO
+         ========================================== -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="logo-link" style="margin-bottom: 1rem;">
+                    <div class="logo-badge">IT</div>
+                    <div class="logo-text">
+                        <h1 style="color: #FFFFFF;">Industrial ToriMex</h1>
+                    </div>
+                </div>
+                <p>Comprometidos con el desarrollo sustentable, la eficiencia operativa y el suministro de insumos de clase mundial para la industria en México.</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Navegación</h4>
+                <ul class="footer-links">
+                    <li><a href="#nosotros">Sobre Nosotros</a></li>
+                    <li><a href="#catalogo">Catálogo de Productos</a></li>
+                    <li><a href="#por-que-nosotros">Ventajas Competitivas</a></li>
+                    <li><a href="#contacto">Contacto & Cotizaciones</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Líneas de Negocio</h4>
+                <ul class="footer-links">
+                    <li><a href="#catalogo">Industria Papelera</a></li>
+                    <li><a href="#catalogo">Cuchillas y Corte</a></li>
+                    <li><a href="#catalogo">Seguridad Industrial (EPP)</a></li>
+                    <li><a href="#catalogo">Tratamiento de Aguas</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Contacto Directo</h4>
+                <p><strong>Tel / WhatsApp:</strong> +52 (442) 447-0567</p>
+                <p><strong>Email:</strong> atoriz485@gmail.com</p>
+                <p><strong>Ubicación:</strong> Querétaro, México</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Industrial ToriMex. Todos los derechos reservados.</p>
+            <div>
+                <!-- Enlace seguro para administración -->
+                <a href="admin.html" class="admin-access-link" title="Acceso al panel de administración">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    Panel Administrativo
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/catalog-data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
