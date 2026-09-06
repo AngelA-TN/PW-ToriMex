@@ -1,0 +1,305 @@
+/* --- VARIABLES DE COLOR PROFESIONALES --- */
+:root {
+    /* Usaremos un verde oscuro y sobrio como tono principal (Fondo Césped Profundo) */
+    --primary-green: #166534; /* Un verde bosque oscuro, elegante y profesional */
+    --darker-green: #14532d; /* Tono para hover más oscuro */
+    --accent-cyan: #22d3ee;  /* Un cian brillante para botones y llamadas a la acción (contrasta excelente con el verde) */
+    
+    /* Tonos neutros */
+    --text-dark: #0f172a;    /* Texto muy oscuro casi negro para buena legibilidad */
+    --text-light: #f8fafc;   /* Texto blanco para fondos oscuros */
+    --bg-white: #ffffff;
+    --bg-light-gray: #f1f5f9; /* Un gris muy suave para secciones alternas */
+    --border-color: #e2e8f0;
+}
+
+/* --- ESTILOS GENERALES --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    color: var(--text-dark);
+    background-color: var(--bg-light-gray);
+    line-height: 1.7; /* Un poco más espaciado para lectura profesional */
+}
+
+/* --- HEADER --- */
+header {
+    background-color: #1E244A; /* Azul rey corporativo */
+    color: var(--text-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 8%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+header .logo h1 {
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+nav ul li a {
+    color: #e2e8f0; /* Gris muy claro, no blanco puro */
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+    font-size: 0.95rem;
+}
+
+nav ul li a:hover {
+    color: var(--accent-cyan); /* El hover usa el color cian de acento */
+}
+
+/* --- HERO SECTION (BIENVENIDA) --- */
+.hero {
+    /* Fondo de imagen oscuro con una capa semitransparente del verde principal */
+    background: linear-gradient(rgba(22, 101, 52, 0.9), rgba(22, 101, 52, 0.9)), url('https://images.unsplash.com/photo-1497366811547-f2ebec0be1d8?auto=format&fit=crop&w=1600&q=80') no-repeat center center/cover;
+    color: var(--text-light);
+    text-align: center;
+    padding: 140px 20px; /* Muy amplio para impacto visual */
+}
+
+.hero-content {
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.hero h2 {
+    font-size: 3rem;
+    margin-bottom: 25px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    color: #e2e8f0;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- BOTONES GENERALES --- */
+.btn {
+    display: inline-block;
+    background-color: var(--accent-cyan); /* Botones principales en color cian llamativo */
+    color: var(--text-dark);              /* Texto oscuro sobre el cian */
+    padding: 14px 32px;
+    border-radius: 50px; /* Bordes totalmente redondeados para un look moderno */
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #06b6d4; /* Cian un poco más oscuro al pasar el mouse */
+    transform: translateY(-2px); /* Pequeño efecto de elevación */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border: 2px solid var(--text-light);
+    color: var(--text-light);
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: none;
+}
+
+/* --- BOTÓN WHATSAPP (Estilo Profesional) --- */
+.btn-whatsapp {
+    display: inline-block;
+    background-color: #16a34a; /* Un verde específico de WhatsApp, pero más oscuro que el neón original */
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-top: 20px;
+    transition: background 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-whatsapp:hover {
+    background-color: #15803d;
+}
+
+/* --- CONTENEDORES Y SECCIONES --- */
+.container {
+    padding: 80px 8%;
+}
+
+.bg-light {
+    background-color: var(--bg-white); /* Fondo blanco para alternar secciones */
+}
+
+.container h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: var(--text-dark);
+    font-weight: 800;
+}
+
+.section-desc {
+    text-align: center;
+    color: #475569;
+    margin-bottom: 60px;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- GRID DE PRODUCTOS --- */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.grid-single {
+    display: flex;
+    justify-content: center;
+}
+
+.card {
+    background: var(--bg-white);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03); /* Sombra suave y difusa */
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+    margin-bottom: 15px;
+    color: var(--text-dark);
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.card p {
+    color: #475569;
+    font-size: 1rem;
+    margin-bottom: 25px;
+    flex-grow: 1; /* Ocupa el espacio disponible */
+}
+
+/* --- SECCIÓN CONTACTO --- */
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.contact-card {
+    background: var(--bg-white);
+    padding: 50px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+.contact-card h3 {
+    margin-bottom: 20px;
+    color: var(--text-dark);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.contact-card p {
+    color: #475569;
+    margin-bottom: 15px;
+    font-size: 1.05rem;
+}
+
+.btn-large {
+    padding: 16px 40px;
+    font-size: 1.1rem;
+    margin-top: 30px;
+    width: 100%; /* Botón de ancho completo en la tarjeta */
+}
+
+/* --- FOOTER --- */
+footer {
+    background-color: var(--darker-green); /* Un tono aún más oscuro para el pie de página */
+    color: #cbd5e1;
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+/* --- RESPONSIVE DESIGN (AJUSTES MÓVILES) --- */
+@media (max-width: 768px) {
+    header {
+        padding: 1rem 5%;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .hero {
+        padding: 100px 20px;
+    }
+    
+    .hero h2 {
+        font-size: 2rem;
+    }
+    
+    .container {
+        padding: 60px 5%;
+    }
+
+    .grid, .contact-grid {
+        grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
+    }
+    
+    .btn-large {
+        width: 90%;
+    }
+}
