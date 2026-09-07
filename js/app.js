@@ -131,11 +131,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    let currentProductItem = null;
+
     // 4. Modal de Ficha Técnica Detallada
     window.openProductModal = function(itemId) {
         const allItems = getCatalogItems();
         const item = allItems.find(i => i.id === itemId);
         if (!item) return;
+        currentProductItem = item;
 
         const defaultImg = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80";
         modalImage.src = item.imageUrl || defaultImg;
@@ -159,16 +162,25 @@ document.addEventListener("DOMContentLoaded", () => {
         // Enlace WhatsApp automatizado
         modalWhatsAppBtn.href = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(autoMsg)}`;
 
-        // Enlace Correo automatizado
-        if (modalMailBtn) {
-            const mailSubject = encodeURIComponent(`Consulta: ${item.name}`);
-            const mailBody = encodeURIComponent(autoMsg);
-            modalMailBtn.href = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL_CORP}&su=${mailSubject}&body=${mailBody}`;
-        }
-
         detailModal.classList.add("active");
         document.body.style.overflow = "hidden";
     };
+
+    // Botón de Correo en el Modal de Ficha Técnica (Abre selector Gmail / Outlook)
+    if (modalMailBtn) {
+        modalMailBtn.addEventListener("click", () => {
+            if (!currentProductItem) return;
+            const autoMsg = (currentProductItem.whatsappText && currentProductItem.whatsappText.trim()) 
+                ? currentProductItem.whatsappText 
+                : buildAutoContactMessage(currentProductItem.name);
+
+            openEmailClientChoice({
+                to: EMAIL_CORP,
+                subject: `Consulta sobre: ${currentProductItem.name}`,
+                body: autoMsg
+            });
+        });
+    }
 
     function closeModal() {
         detailModal.classList.remove("active");
@@ -188,8 +200,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && detailModal && detailModal.classList.contains("active")) {
-            closeModal();
+        if (e.key === "Escape") {
+            if (emailChoiceModal && emailChoiceModal.classList.contains("active")) {
+                closeEmailChoiceModal();
+            } else if (detailModal && detailModal.classList.contains("active")) {
+                closeModal();
+            }
         }
     });
 
@@ -207,10 +223,122 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 6. Formulario de Contacto (WhatsApp y Gmail Directo)
+    // ==========================================================================
+    // SELECTOR DE CORREO: GMAIL / OUTLOOK / APP PREDETERMINADA
+    // ==========================================================================
+    let currentEmailData = {
+        to: EMAIL_CORP,
+        subject: "Solicitud de Información - Industrial ToriMex",
+        body: "Hola, buen día. Me gustaría obtener más información sobre. ¿Podrían proporcionarme detalles, por favor? ¡Gracias!"
+    };
+
+    const emailChoiceModal = document.getElementById("emailChoiceModal");
+    const emailChoiceCloseBtn = document.getElementById("emailChoiceCloseBtn");
+    const choiceGmailBtn = document.getElementById("choiceGmailBtn");
+    const choiceOutlookBtn = document.getElementById("choiceOutlookBtn");
+    const choiceDefaultAppBtn = document.getElementById("choiceDefaultAppBtn");
+
+    function openEmailClientChoice(data) {
+        if (data) {
+            currentEmailData = {
+                to: data.to || EMAIL_CORP,
+                subject: data.subject || "Solicitud de Información - Industrial ToriMex",
+                body: data.body || "Hola, buen día. Me gustaría obtener más información sobre. ¿Podrían proporcionarme detalles, por favor? ¡Gracias!"
+            };
+        }
+        if (emailChoiceModal) {
+            emailChoiceModal.classList.add("active");
+            document.body.style.overflow = "hidden";
+        }
+    }
+
+    function closeEmailChoiceModal() {
+        if (emailChoiceModal) {
+            emailChoiceModal.classList.remove("active");
+            if (!detailModal || !detailModal.classList.contains("active")) {
+                document.body.style.overflow = "";
+            }
+        }
+    }
+
+    if (choiceGmailBtn) {
+        choiceGmailBtn.addEventListener("click", () => {
+            const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(currentEmailData.to)}&su=${encodeURIComponent(currentEmailData.subject)}&body=${encodeURIComponent(currentEmailData.body)}`;
+            window.open(url, "_blank");
+            closeEmailChoiceModal();
+        });
+    }
+
+    if (choiceOutlookBtn) {
+        choiceOutlookBtn.addEventListener("click", () => {
+            const url = `https://outlook.live.com/mail/0/deeplink/compose?to=${encodeURIComponent(currentEmailData.to)}&subject=${encodeURIComponent(currentEmailData.subject)}&body=${encodeURIComponent(currentEmailData.body)}`;
+            window.open(url, "_blank");
+            closeEmailChoiceModal();
+        });
+    }
+
+    if (choiceDefaultAppBtn) {
+        choiceDefaultAppBtn.addEventListener("click", () => {
+            const url = `mailto:${encodeURIComponent(currentEmailData.to)}?subject=${encodeURIComponent(currentEmailData.subject)}&body=${encodeURIComponent(currentEmailData.body)}`;
+            window.location.href = url;
+            closeEmailChoiceModal();
+        });
+    }
+
+    if (emailChoiceCloseBtn) {
+        emailChoiceCloseBtn.addEventListener("click", closeEmailChoiceModal);
+    }
+
+    if (emailChoiceModal) {
+        emailChoiceModal.addEventListener("click", (e) => {
+            if (e.target === emailChoiceModal) {
+                closeEmailChoiceModal();
+            }
+        });
+    }
+
+    // Conectar botones del panel izquierdo y enlaces
+    const btnContactEmailGeneral = document.getElementById("btnContactEmailGeneral");
+    if (btnContactEmailGeneral) {
+        btnContactEmailGeneral.addEventListener("click", () => {
+            openEmailClientChoice({
+                to: EMAIL_CORP,
+                subject: "Solicitud de Información General - Industrial ToriMex",
+                body: "Hola, buen día. Me gustaría obtener más información sobre. ¿Podrían proporcionarme detalles, por favor? ¡Gracias!"
+            });
+        });
+    }
+
+    const linkCorporateMail = document.getElementById("linkCorporateMail");
+    if (linkCorporateMail) {
+        linkCorporateMail.addEventListener("click", (e) => {
+            e.preventDefault();
+            openEmailClientChoice({
+                to: EMAIL_CORP,
+                subject: "Contacto Corporativo - Industrial ToriMex",
+                body: "Hola, buen día. Me gustaría obtener más información sobre. ¿Podrían proporcionarme detalles, por favor? ¡Gracias!"
+            });
+        });
+    }
+
+    const linkFooterMail = document.getElementById("linkFooterMail");
+    if (linkFooterMail) {
+        linkFooterMail.addEventListener("click", (e) => {
+            e.preventDefault();
+            openEmailClientChoice({
+                to: EMAIL_CORP,
+                subject: "Contacto - Industrial ToriMex",
+                body: "Hola, buen día. Me gustaría obtener más información sobre. ¿Podrían proporcionarme detalles, por favor? ¡Gracias!"
+            });
+        });
+    }
+
+    // ==========================================================================
+    // FORMULARIO DE COTIZACIÓN (WHATSAPP Y CORREO GMAIL/OUTLOOK)
+    // ==========================================================================
     const contactForm = document.getElementById("contactForm");
     const btnSubmitWhatsApp = document.getElementById("btnSubmitWhatsApp");
-    const btnSubmitGmail = document.getElementById("btnSubmitGmail");
+    const btnSubmitEmail = document.getElementById("btnSubmitEmail");
 
     function getFormData() {
         if (!contactForm.checkValidity()) {
@@ -239,8 +367,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    if (btnSubmitGmail) {
-        btnSubmitGmail.addEventListener("click", () => {
+    if (btnSubmitEmail) {
+        btnSubmitEmail.addEventListener("click", () => {
             const data = getFormData();
             if (!data) return;
 
@@ -248,8 +376,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const subject = `Solicitud de Información: ${data.topic} - ${data.name}`;
             const body = `${autoMsg}\n\nNombre / Empresa: ${data.name}\nCorreo de contacto: ${data.email}\nDetalles del requerimiento:\n${data.message}`;
 
-            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL_CORP}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            window.open(gmailUrl, "_blank");
+            openEmailClientChoice({
+                to: EMAIL_CORP,
+                subject: subject,
+                body: body
+            });
             contactForm.reset();
         });
     }

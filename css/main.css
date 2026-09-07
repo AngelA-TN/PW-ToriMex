@@ -891,6 +891,163 @@ nav ul li a.active {
     font-size: 0.92rem;
 }
 
+/* Botón de Selección de Correo (Gmail / Outlook) */
+.btn-contact-email-choice {
+    background: linear-gradient(135deg, #0284C7, #0369A1);
+    color: #FFFFFF !important;
+    font-weight: 700;
+    padding: 0.85rem 1.5rem;
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: none;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-contact-email-choice:hover {
+    background: linear-gradient(135deg, #0369A1, #075985);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(2, 132, 199, 0.45);
+}
+
+/* Modal Selector de Proveedor de Correo */
+.email-choice-card {
+    background: #FFFFFF;
+    border-radius: var(--radius-lg);
+    max-width: 480px;
+    width: 100%;
+    padding: 2.25rem 2rem;
+    position: relative;
+    box-shadow: var(--shadow-xl);
+    border: 1px solid var(--border-color);
+    animation: slideUp 0.25s ease-out;
+}
+
+.email-choice-header {
+    text-align: center;
+    margin-bottom: 1.75rem;
+}
+
+.email-choice-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: var(--radius-full);
+    background: #E0F2FE;
+    color: #0284C7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+}
+
+.email-choice-header h3 {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--primary-navy);
+    margin-bottom: 0.35rem;
+}
+
+.email-choice-header p {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.45;
+}
+
+.email-providers-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.provider-btn {
+    display: flex;
+    align-items: center;
+    padding: 0.9rem 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    background: var(--bg-main);
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: left;
+    width: 100%;
+    gap: 1rem;
+}
+
+.provider-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.provider-icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.provider-info {
+    flex-grow: 1;
+}
+
+.provider-info strong {
+    display: block;
+    font-size: 0.98rem;
+    color: var(--primary-navy);
+}
+
+.provider-info span {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.provider-arrow {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    font-weight: 700;
+    transition: var(--transition);
+}
+
+.provider-btn:hover .provider-arrow {
+    transform: translateX(4px);
+    color: var(--primary-navy);
+}
+
+/* Colores de marca */
+.provider-gmail:hover {
+    border-color: #EA4335;
+    background: #FEF2F2;
+}
+.provider-gmail .provider-icon-wrap {
+    background: #FEE2E2;
+    color: #EA4335;
+}
+
+.provider-outlook:hover {
+    border-color: #0078D4;
+    background: #F0F9FF;
+}
+.provider-outlook .provider-icon-wrap {
+    background: #E0F2FE;
+    color: #0078D4;
+}
+
+.provider-app:hover {
+    border-color: #64748B;
+    background: #F1F5F9;
+}
+.provider-app .provider-icon-wrap {
+    background: #E2E8F0;
+    color: #475569;
+}
+
 .contact-form-card {
     background: var(--bg-card);
     border-radius: var(--radius-lg);
