@@ -434,8 +434,17 @@
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Scripts y Enlace con Google Apps Script -->
     <script src="js/catalog-data.js"></script>
     <script src="js/app.js"></script>
+    <script>
+        // URL de la base de datos en la nube (Google Sheets / Apps Script)
+        const TORIMEX_DB_URL = "https://script.google.com/macros/s/AKfycbwUvHc7aX54b55vd0xGRrrqBdZq8Q-_Esbo7JJpLprOfjSujFWGPUw5fCn9MwVoAxy4/exec";
+        
+        window.addEventListener("DOMContentLoaded", () => {
+            console.log("Catálogo público vinculado con Google Sheets:", TORIMEX_DB_URL);
+            // El script app.js gestionará las peticiones asíncronas para renderizar los productos en la web
+        });
+    </script>
 </body>
 </html>

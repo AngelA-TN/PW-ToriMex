@@ -287,8 +287,17 @@
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Scripts y Enlace con Google Apps Script -->
     <script src="js/catalog-data.js"></script>
     <script src="js/admin.js"></script>
+    <script>
+        // URL de la base de datos en la nube (Google Sheets / Apps Script)
+        const TORIMEX_DB_URL = "https://script.google.com/macros/s/AKfycbwUvHc7aX54b55vd0xGRrrqBdZq8Q-_Esbo7JJpLprOfjSujFWGPUw5fCn9MwVoAxy4/exec";
+        
+        window.addEventListener("DOMContentLoaded", () => {
+            console.log("Conectado con la base de datos de ToriMex:", TORIMEX_DB_URL);
+            // El script admin.js gestionará las peticiones asíncronas usando esta constante global
+        });
+    </script>
 </body>
 </html>
