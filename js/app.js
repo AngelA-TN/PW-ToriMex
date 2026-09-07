@@ -207,23 +207,50 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 6. Formulario de Contacto
+    // 6. Formulario de Contacto (WhatsApp y Gmail Directo)
     const contactForm = document.getElementById("contactForm");
-    if (contactForm) {
-        contactForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            const name = document.getElementById("contactName").value.trim();
-            const email = document.getElementById("contactEmail").value.trim();
-            const topic = document.getElementById("contactTopic").value;
-            const message = document.getElementById("contactMessage").value.trim();
+    const btnSubmitWhatsApp = document.getElementById("btnSubmitWhatsApp");
+    const btnSubmitGmail = document.getElementById("btnSubmitGmail");
 
-            const autoMsg = buildAutoContactMessage(topic);
-            const fullMessage = `${autoMsg}\n\n*Datos de contacto:*\n*Nombre / Empresa:* ${name}\n*Correo:* ${email}\n*Detalles adicionales:* ${message}`;
+    function getFormData() {
+        if (!contactForm.checkValidity()) {
+            contactForm.reportValidity();
+            return null;
+        }
+
+        return {
+            name: document.getElementById("contactName").value.trim(),
+            email: document.getElementById("contactEmail").value.trim(),
+            topic: document.getElementById("contactTopic").value,
+            message: document.getElementById("contactMessage").value.trim()
+        };
+    }
+
+    if (btnSubmitWhatsApp) {
+        btnSubmitWhatsApp.addEventListener("click", () => {
+            const data = getFormData();
+            if (!data) return;
+
+            const autoMsg = buildAutoContactMessage(data.topic);
+            const fullMessage = `${autoMsg}\n\n*Datos de contacto:*\n*Nombre / Empresa:* ${data.name}\n*Correo:* ${data.email}\n*Detalles adicionales:* ${data.message}`;
             
             window.open(`https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(fullMessage)}`, "_blank");
-
             contactForm.reset();
-            alert("¡Gracias por su mensaje! Lo redirigimos a nuestro WhatsApp corporativo para atención inmediata.");
+        });
+    }
+
+    if (btnSubmitGmail) {
+        btnSubmitGmail.addEventListener("click", () => {
+            const data = getFormData();
+            if (!data) return;
+
+            const autoMsg = buildAutoContactMessage(data.topic);
+            const subject = `Solicitud de Información: ${data.topic} - ${data.name}`;
+            const body = `${autoMsg}\n\nNombre / Empresa: ${data.name}\nCorreo de contacto: ${data.email}\nDetalles del requerimiento:\n${data.message}`;
+
+            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL_CORP}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.open(gmailUrl, "_blank");
+            contactForm.reset();
         });
     }
 

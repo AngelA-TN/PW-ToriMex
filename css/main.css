@@ -836,6 +836,61 @@ nav ul li a.active {
     transform: translateY(-2px);
 }
 
+.btn-contact-gmail {
+    background: #EA4335;
+    color: #FFFFFF !important;
+    font-weight: 700;
+    padding: 0.85rem 1.5rem;
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: none;
+    box-shadow: 0 4px 12px rgba(234, 67, 53, 0.35);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-contact-gmail:hover {
+    background: #D93025;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(234, 67, 53, 0.45);
+}
+
+.contact-lead-person {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    padding: 0.55rem 1rem;
+    border-radius: var(--radius-md);
+    color: #38BDF8;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+}
+
+.contact-lead-person svg {
+    flex-shrink: 0;
+}
+
+.form-submit-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.form-submit-actions .btn {
+    flex: 1;
+    min-width: 180px;
+    cursor: pointer;
+    font-size: 0.92rem;
+}
+
 .contact-form-card {
     background: var(--bg-card);
     border-radius: var(--radius-lg);
