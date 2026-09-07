@@ -99,7 +99,9 @@ function buildAutoContactMessage(itemName) {
 }
 
 // URL oficial del endpoint de base de datos en la nube (Google Apps Script / Google Sheets)
-const TORIMEX_DB_URL = "https://script.google.com/macros/s/AKfycbwUvHc7aX54b55vd0xGRrrqBdZq8Q-_Esbo7JJpLprOfjSujFWGPUw5fCn9MwVoAxy4/exec";
+const TORIMEX_DB_URL = (typeof window !== "undefined" && window.TORIMEX_DB_URL) 
+    ? window.TORIMEX_DB_URL 
+    : "https://script.google.com/macros/s/AKfycbwUvHc7aX54b55vd0xGRrrqBdZq8Q-_Esbo7JJpLprOfjSujFWGPUw5fCn9MwVoAxy4/exec";
 
 /**
  * Obtiene la lista actual de items (desde localStorage o catálogo inicial)
