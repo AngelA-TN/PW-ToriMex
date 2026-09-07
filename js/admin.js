@@ -5,7 +5,10 @@
  */
 
 const SALT = "TORIMEX_SECURE_SALT_2026_";
-const DEFAULT_PASSWORD = "ToriMex2026!";
+// Hash criptográfico irreversible SHA-256 de la contraseña maestra (con Salt).
+// La contraseña en texto plano NO aparece en el código ni en la pantalla.
+// Cualquier persona que inspeccione la página o el script solo verá esta cadena matemática.
+const MASTER_PWD_HASH = "fea39cf2778bd0bb0e9174e9f256a7da2a94a0a6d49809f36ac4113f426c9d9f";
 const MAX_ATTEMPTS = 5;
 const LOCKOUT_DURATION_MS = 5 * 60 * 1000; // 5 minutos de bloqueo
 
@@ -17,16 +20,12 @@ async function sha256(str) {
     return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
-// Inicializar hash por defecto si no existe
-async function initDefaultPassword() {
-    if (!localStorage.getItem("torimex_admin_pwd_hash")) {
-        const defaultHash = await sha256(DEFAULT_PASSWORD);
-        localStorage.setItem("torimex_admin_pwd_hash", defaultHash);
-    }
+// Obtener el hash de contraseña activo (personalizado en este dispositivo o maestro)
+function getActivePasswordHash() {
+    return localStorage.getItem("torimex_admin_pwd_hash") || MASTER_PWD_HASH;
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-    await initDefaultPassword();
 
     // Referencias del DOM - Autenticación
     const loginScreen = document.getElementById("loginScreen");
@@ -112,7 +111,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             const inputPassword = passwordInput.value.trim();
             const inputHash = await sha256(inputPassword);
-            const storedHash = localStorage.getItem("torimex_admin_pwd_hash");
+            const storedHash = getActivePasswordHash();
 
             if (inputHash === storedHash) {
                 // Éxito: Limpiar contador de intentos e iniciar sesión
@@ -468,7 +467,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const confirmPwd = document.getElementById("confirmPassword").value.trim();
 
             const currentHash = await sha256(currentPwd);
-            const storedHash = localStorage.getItem("torimex_admin_pwd_hash");
+            const storedHash = getActivePasswordHash();
 
             if (currentHash !== storedHash) {
                 alert("La contraseña actual no es correcta.");
