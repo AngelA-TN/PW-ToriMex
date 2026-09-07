@@ -150,7 +150,17 @@ async function syncCatalogFromCloud() {
             throw new Error(`HTTP ${response.status}`);
         }
         
-        const data = await response.json();
+        const text = await response.text();
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch (jsonErr) {
+            if (text.includes("doGet")) {
+                throw new Error("Falta pegar el código en Google Apps Script (función doGet no encontrada)");
+            }
+            throw new Error("Respuesta no válida de Google Sheets (HTML en vez de JSON)");
+        }
+
         if (Array.isArray(data) && data.length > 0) {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
             window.dispatchEvent(new CustomEvent("torimex_catalog_updated", { detail: data }));
