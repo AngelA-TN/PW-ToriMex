@@ -541,7 +541,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             badge.innerHTML = `☁️ Google Sheets Conectado`;
         } else if (detail.status === "offline") {
             badge.className = "cloud-sync-badge offline";
+            const errMsg = detail.error || "No se pudo conectar a Google Sheets";
             badge.innerHTML = `⚠️ Sin conexión a la nube`;
+            badge.title = `${errMsg} (Haz clic para ver diagnóstico)`;
+            badge.style.cursor = "pointer";
+            badge.onclick = () => {
+                alert(`Diagnóstico de Conexión:\n\n${errMsg}\n\nURL actual:\n${TORIMEX_DB_URL}\n\nPuedes abrir esa URL en una pestaña para ver el mensaje que arroja Google.`);
+            };
         }
     });
 });
