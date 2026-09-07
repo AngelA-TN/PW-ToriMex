@@ -161,6 +161,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         loginScreen.style.display = "none";
         adminLayout.style.display = "flex";
         renderAdminTable();
+
+        // Sincronizar catálogo con Google Sheets al entrar al panel
+        if (typeof syncCatalogFromCloud === "function") {
+            syncCatalogFromCloud().then(cloudItems => {
+                if (cloudItems) renderAdminTable();
+            });
+        }
     }
 
     // ==========================================
@@ -379,7 +386,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 showToast("¡Nuevo elemento agregado exitosamente!", "success");
             }
 
-            saveCatalogItems(items);
+            saveCatalogToCloud(items);
             renderAdminTable();
             closeItemModal();
         });
@@ -393,7 +400,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (confirm(`¿Estás seguro de que deseas eliminar permanentemente "${item.name}"?`)) {
             const updated = items.filter(i => i.id !== id);
-            saveCatalogItems(updated);
+            saveCatalogToCloud(updated);
             renderAdminTable();
             showToast(`"${item.name}" fue eliminado del catálogo.`, "warning");
         }
@@ -427,9 +434,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                     const parsed = JSON.parse(event.target.result);
                     if (Array.isArray(parsed)) {
                         if (confirm(`Se encontraron ${parsed.length} elementos en el archivo. ¿Deseas reemplazar el catálogo actual?`)) {
-                            saveCatalogItems(parsed);
+                            saveCatalogToCloud(parsed);
                             renderAdminTable();
-                            showToast("Catálogo restaurado exitosamente.", "success");
+                            showToast("Catálogo restaurado y sincronizado exitosamente.", "success");
                         }
                     } else {
                         alert("El archivo no tiene el formato de catálogo esperado.");
@@ -490,6 +497,53 @@ document.addEventListener("DOMContentLoaded", async () => {
             showToast("Contraseña maestra actualizada con éxito.", "success");
         });
     }
+
+    // ==========================================
+    // SINCRONIZACIÓN CON GOOGLE SHEETS
+    // ==========================================
+    const syncCloudBtn = document.getElementById("syncCloudBtn");
+    if (syncCloudBtn) {
+        syncCloudBtn.addEventListener("click", async () => {
+            showToast("Consultando datos en Google Sheets...", "info");
+            syncCloudBtn.disabled = true;
+            try {
+                const cloudItems = await syncCatalogFromCloud();
+                if (cloudItems) {
+                    renderAdminTable();
+                    showToast("¡Catálogo sincronizado exitosamente con la nube!", "success");
+                } else {
+                    showToast("Sincronización completada. Verifique la conexión con Google Sheets.", "info");
+                }
+            } catch (err) {
+                showToast("Error al sincronizar: " + err.message, "error");
+            } finally {
+                syncCloudBtn.disabled = false;
+            }
+        });
+    }
+
+    // Escuchar actualizaciones de catálogo
+    window.addEventListener("torimex_catalog_updated", () => {
+        renderAdminTable();
+    });
+
+    // Escuchar estado de sincronización
+    window.addEventListener("torimex_sync_status", (e) => {
+        const detail = e.detail || {};
+        const badge = document.getElementById("cloudSyncBadge");
+        if (!badge) return;
+
+        if (detail.status === "syncing") {
+            badge.className = "cloud-sync-badge syncing";
+            badge.innerHTML = `<span class="sync-dot"></span> Sincronizando...`;
+        } else if (detail.status === "synced") {
+            badge.className = "cloud-sync-badge synced";
+            badge.innerHTML = `☁️ Google Sheets Conectado`;
+        } else if (detail.status === "offline") {
+            badge.className = "cloud-sync-badge offline";
+            badge.innerHTML = `⚠️ Sin conexión a la nube`;
+        }
+    });
 });
 
 // Helper de notificaciones Toast

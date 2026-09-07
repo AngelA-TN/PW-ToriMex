@@ -247,6 +247,50 @@ body {
     margin-left: 0.5rem;
 }
 
+.cloud-sync-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    margin-top: 0.2rem;
+    transition: all 0.3s ease;
+}
+
+.cloud-sync-badge.synced {
+    background: #DCFCE7;
+    color: #166534;
+    border: 1px solid #BBF7D0;
+}
+
+.cloud-sync-badge.syncing {
+    background: #FEF3C7;
+    color: #92400E;
+    border: 1px solid #FDE68A;
+}
+
+.cloud-sync-badge.offline {
+    background: #FEE2E2;
+    color: #991B1B;
+    border: 1px solid #FECACA;
+}
+
+.sync-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: currentColor;
+    display: inline-block;
+    animation: pulseSync 1s infinite alternate;
+}
+
+@keyframes pulseSync {
+    from { opacity: 0.4; }
+    to { opacity: 1; }
+}
+
 .admin-header-actions {
     display: flex;
     align-items: center;

@@ -390,8 +390,17 @@ document.addEventListener("DOMContentLoaded", () => {
         renderCatalog();
     });
 
-    // Render inicial
+    // Render inicial local
     renderCatalog();
+
+    // Sincronizar con Google Sheets en segundo plano al cargar
+    if (typeof syncCatalogFromCloud === "function") {
+        syncCatalogFromCloud().then(cloudItems => {
+            if (cloudItems) {
+                renderCatalog();
+            }
+        });
+    }
 });
 
 // Función de escape para seguridad en renderizado HTML

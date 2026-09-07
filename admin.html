@@ -56,10 +56,15 @@
                 <div class="admin-brand-badge">IT</div>
                 <div>
                     <h1>Industrial ToriMex <span>Admin Portal</span></h1>
+                    <div id="cloudSyncBadge" class="cloud-sync-badge synced">☁️ Google Sheets Conectado</div>
                 </div>
             </div>
 
             <div class="admin-header-actions">
+                <button id="syncCloudBtn" class="btn-header" title="Sincronizar cambios con Google Sheets">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                    Sincronizar Nube
+                </button>
                 <a href="index.html" target="_blank" class="btn-header">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                     Ver Sitio Web
@@ -290,12 +295,8 @@
     <script src="js/catalog-data.js"></script>
     <script src="js/admin.js"></script>
     <script>
-        // URL de la base de datos en la nube (Google Sheets / Apps Script)
-        const TORIMEX_DB_URL = "https://script.google.com/macros/s/AKfycbwUvHc7aX54b55vd0xGRrrqBdZq8Q-_Esbo7JJpLprOfjSujFWGPUw5fCn9MwVoAxy4/exec";
-        
         window.addEventListener("DOMContentLoaded", () => {
-            console.log("Conectado con la base de datos de ToriMex:", TORIMEX_DB_URL);
-            // El script admin.js gestionará las peticiones asíncronas usando esta constante global
+            console.log("Panel conectado con Google Sheets:", TORIMEX_DB_URL);
         });
     </script>
 </body>

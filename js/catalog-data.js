@@ -98,6 +98,9 @@ function buildAutoContactMessage(itemName) {
     return "Hola, buen día. Me gustaría obtener más información sobre. ¿Podrían proporcionarme detalles, por favor? ¡Gracias!";
 }
 
+// URL oficial del endpoint de base de datos en la nube (Google Apps Script / Google Sheets)
+const TORIMEX_DB_URL = "https://script.google.com/macros/s/AKfycbwUvHc7aX54b55vd0xGRrrqBdZq8Q-_Esbo7JJpLprOfjSujFWGPUw5fCn9MwVoAxy4/exec";
+
 /**
  * Obtiene la lista actual de items (desde localStorage o catálogo inicial)
  */
@@ -119,7 +122,7 @@ function getCatalogItems() {
 }
 
 /**
- * Guarda los items en localStorage
+ * Guarda los items en localStorage y notifica en la ventana
  */
 function saveCatalogItems(items) {
     try {
@@ -128,5 +131,74 @@ function saveCatalogItems(items) {
         window.dispatchEvent(new CustomEvent("torimex_catalog_updated", { detail: items }));
     } catch (e) {
         console.error("Error al guardar en localStorage", e);
+    }
+}
+
+/**
+ * Consulta la base de datos en la nube (Google Apps Script)
+ * y actualiza el catálogo local si hay datos disponibles.
+ */
+async function syncCatalogFromCloud() {
+    if (!TORIMEX_DB_URL) return null;
+    try {
+        window.dispatchEvent(new CustomEvent("torimex_sync_status", { detail: { status: "syncing" } }));
+        const response = await fetch(TORIMEX_DB_URL, {
+            method: "GET"
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        
+        const data = await response.json();
+        if (Array.isArray(data) && data.length > 0) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            window.dispatchEvent(new CustomEvent("torimex_catalog_updated", { detail: data }));
+            window.dispatchEvent(new CustomEvent("torimex_sync_status", { detail: { status: "synced", count: data.length } }));
+            return data;
+        } else if (Array.isArray(data) && data.length === 0) {
+            // Si la hoja en la nube está recién creada y vacía, subir catálogo local
+            const localItems = getCatalogItems();
+            await saveCatalogToCloud(localItems);
+            return localItems;
+        }
+    } catch (err) {
+        console.warn("Sincronización en la nube en espera o sin conexión:", err.message);
+        window.dispatchEvent(new CustomEvent("torimex_sync_status", { detail: { status: "offline", error: err.message } }));
+    }
+    return null;
+}
+
+/**
+ * Guarda los items localmente y los envía a Google Sheets en segundo plano
+ */
+async function saveCatalogToCloud(items) {
+    // 1. Guardar localmente de inmediato para reactividad instantánea
+    saveCatalogItems(items);
+
+    // 2. Transmitir a Google Apps Script
+    if (!TORIMEX_DB_URL) return;
+    try {
+        window.dispatchEvent(new CustomEvent("torimex_sync_status", { detail: { status: "syncing" } }));
+        
+        // El Content-Type text/plain evita el bloqueo preflight OPTIONS en Google Apps Script
+        const response = await fetch(TORIMEX_DB_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "text/plain;charset=utf-8"
+            },
+            body: JSON.stringify({
+                action: "save_catalog",
+                items: items
+            })
+        });
+        
+        const result = await response.json();
+        console.log("Catálogo sincronizado exitosamente con Google Sheets:", result);
+        window.dispatchEvent(new CustomEvent("torimex_sync_status", { detail: { status: "synced", count: items.length } }));
+        return result;
+    } catch (err) {
+        console.warn("No se pudo sincronizar con Google Sheets en este momento:", err.message);
+        window.dispatchEvent(new CustomEvent("torimex_sync_status", { detail: { status: "offline", error: err.message } }));
     }
 }
