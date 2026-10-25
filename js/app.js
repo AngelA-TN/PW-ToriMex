@@ -356,6 +356,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        document.body.classList.add("js-reveal-ready");
+
         const observer = new IntersectionObserver((entries, obs) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -368,8 +370,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         }, {
-            threshold: 0.12,
-            rootMargin: "0px 0px -40px 0px"
+            threshold: 0.08,
+            rootMargin: "0px 0px -25px 0px"
         });
 
         revealElements.forEach(el => observer.observe(el));

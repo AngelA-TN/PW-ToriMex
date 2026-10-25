@@ -1574,7 +1574,8 @@ header.header-scrolled {
     animation: floatOrb 10s ease-in-out infinite alternate;
 }
 
-.hero-glow-1 {
+.hero-glow-1,
+.orb-1 {
     width: 360px;
     height: 360px;
     background: radial-gradient(circle, rgba(16, 185, 129, 0.55) 0%, transparent 70%);
@@ -1582,7 +1583,8 @@ header.header-scrolled {
     left: -80px;
 }
 
-.hero-glow-2 {
+.hero-glow-2,
+.orb-2 {
     width: 420px;
     height: 420px;
     background: radial-gradient(circle, rgba(2, 132, 199, 0.5) 0%, transparent 70%);
@@ -1664,7 +1666,7 @@ header.header-scrolled {
 }
 
 /* 3. Animaciones Scroll Reveal (.reveal-up) */
-.reveal-up {
+body.js-reveal-ready .reveal-up {
     opacity: 0;
     transform: translateY(28px);
     transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
@@ -1672,7 +1674,7 @@ header.header-scrolled {
     will-change: opacity, transform;
 }
 
-.reveal-up.revealed {
+body.js-reveal-ready .reveal-up.revealed {
     opacity: 1;
     transform: translateY(0);
 }
@@ -1804,6 +1806,16 @@ header.header-scrolled {
 
 .marquee-item svg {
     color: #34D399;
+    flex-shrink: 0;
+}
+
+.marquee-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #34D399;
+    box-shadow: 0 0 8px rgba(52, 211, 153, 0.8);
+    display: inline-block;
     flex-shrink: 0;
 }
 
