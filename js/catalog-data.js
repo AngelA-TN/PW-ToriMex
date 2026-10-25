@@ -137,14 +137,21 @@ function saveCatalogItems(items) {
 }
 
 /**
- * Consulta la base de datos en la nube (Google Apps Script)
+ * Consulta la base de datos en la nube (Google Apps Script o Firebase)
  * y actualiza el catálogo local si hay datos disponibles.
  */
 async function syncCatalogFromCloud() {
     if (!TORIMEX_DB_URL) return null;
     try {
         window.dispatchEvent(new CustomEvent("torimex_sync_status", { detail: { status: "syncing" } }));
-        const response = await fetch(TORIMEX_DB_URL, {
+
+        let fetchUrl = TORIMEX_DB_URL;
+        const isFirebase = TORIMEX_DB_URL.includes("firebaseio.com");
+        if (isFirebase && !fetchUrl.endsWith(".json")) {
+            fetchUrl = fetchUrl.replace(/\/$/, "") + "/catalog.json";
+        }
+
+        const response = await fetch(fetchUrl, {
             method: "GET"
         });
         
@@ -158,9 +165,14 @@ async function syncCatalogFromCloud() {
             data = JSON.parse(text);
         } catch (jsonErr) {
             if (text.includes("doGet")) {
-                throw new Error("Falta pegar el código en Google Apps Script (función doGet no encontrada)");
+                throw new Error("Falta implementar como 'Aplicación web' en Google Apps Script (doGet no encontrado)");
             }
-            throw new Error("Respuesta no válida de Google Sheets (HTML en vez de JSON)");
+            throw new Error("Respuesta no válida de la base de datos en la nube");
+        }
+
+        // Si es un objeto de Firebase (a veces regresa { '0': item, '1': item }), convertirlo a Array
+        if (data && typeof data === "object" && !Array.isArray(data)) {
+            data = Object.values(data);
         }
 
         if (Array.isArray(data) && data.length > 0) {
@@ -169,7 +181,7 @@ async function syncCatalogFromCloud() {
             window.dispatchEvent(new CustomEvent("torimex_sync_status", { detail: { status: "synced", count: data.length } }));
             return data;
         } else if (Array.isArray(data) && data.length === 0) {
-            // Si la hoja en la nube está recién creada y vacía, subir catálogo local
+            // Si la base en la nube está vacía, subir catálogo local
             const localItems = getCatalogItems();
             await saveCatalogToCloud(localItems);
             return localItems;
@@ -182,35 +194,50 @@ async function syncCatalogFromCloud() {
 }
 
 /**
- * Guarda los items localmente y los envía a Google Sheets en segundo plano
+ * Guarda los items localmente y los envía a la nube en segundo plano
  */
 async function saveCatalogToCloud(items) {
     // 1. Guardar localmente de inmediato para reactividad instantánea
     saveCatalogItems(items);
 
-    // 2. Transmitir a Google Apps Script
+    // 2. Transmitir a la nube
     if (!TORIMEX_DB_URL) return;
     try {
         window.dispatchEvent(new CustomEvent("torimex_sync_status", { detail: { status: "syncing" } }));
         
-        // El Content-Type text/plain evita el bloqueo preflight OPTIONS en Google Apps Script
-        const response = await fetch(TORIMEX_DB_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "text/plain;charset=utf-8"
-            },
-            body: JSON.stringify({
-                action: "save_catalog",
-                items: items
-            })
-        });
+        const isFirebase = TORIMEX_DB_URL.includes("firebaseio.com");
+        let response;
+
+        if (isFirebase) {
+            const fetchUrl = TORIMEX_DB_URL.endsWith(".json") 
+                ? TORIMEX_DB_URL 
+                : TORIMEX_DB_URL.replace(/\/$/, "") + "/catalog.json";
+
+            response = await fetch(fetchUrl, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(items)
+            });
+        } else {
+            // Google Apps Script (Content-Type text/plain evita bloqueo CORS OPTIONS)
+            response = await fetch(TORIMEX_DB_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8"
+                },
+                body: JSON.stringify({
+                    action: "save_catalog",
+                    items: items
+                })
+            });
+        }
         
         const result = await response.json();
-        console.log("Catálogo sincronizado exitosamente con Google Sheets:", result);
+        console.log("Catálogo sincronizado exitosamente con la base de datos:", result);
         window.dispatchEvent(new CustomEvent("torimex_sync_status", { detail: { status: "synced", count: items.length } }));
         return result;
     } catch (err) {
-        console.warn("No se pudo sincronizar con Google Sheets en este momento:", err.message);
+        console.warn("No se pudo sincronizar con la base de datos en este momento:", err.message);
         window.dispatchEvent(new CustomEvent("torimex_sync_status", { detail: { status: "offline", error: err.message } }));
     }
 }
