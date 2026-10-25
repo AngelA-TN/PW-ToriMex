@@ -63,8 +63,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Construir tarjetas
-        catalogGrid.innerHTML = filtered.map(item => {
+        // Construir tarjetas con índice escalonado para animación de entrada
+        catalogGrid.innerHTML = filtered.map((item, index) => {
             const isService = item.type === "servicio";
             const typeLabel = isService ? "Servicio" : "Producto";
             const defaultImg = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80";
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 : `<span class="specs-chip">Calidad Industrial Garantizada</span>`;
 
             return `
-                <article class="catalog-card" data-id="${item.id}">
+                <article class="catalog-card" data-id="${item.id}" style="--card-index: ${index}">
                     <div class="card-img-wrap">
                         <img src="${escapeHtml(imgSrc)}" alt="${escapeHtml(item.name)}" loading="lazy" onerror="this.src='${defaultImg}'">
                         <span class="card-badge">${escapeHtml(item.categoryLabel || "Industrial")}</span>
@@ -332,6 +332,208 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
+
+    const btnBannerEmailChoice = document.getElementById("btnBannerEmailChoice");
+    if (btnBannerEmailChoice) {
+        btnBannerEmailChoice.addEventListener("click", () => {
+            openEmailClientChoice({
+                to: EMAIL_CORP,
+                subject: "Solicitud de Diagnóstico Técnico - Industrial ToriMex",
+                body: "Hola, buen día. Me gustaría obtener más información sobre asesoría técnica para nuestra planta. ¿Podrían proporcionarme detalles, por favor? ¡Gracias!"
+            });
+        });
+    }
+
+    // ==========================================================================
+    // ETAPA 1 & ETAPA 2: ANIMACIONES PROFESIONALES, CONTADORES, FAQ Y SCROLL
+    // ==========================================================================
+
+    // A) Animaciones Scroll Reveal con IntersectionObserver
+    function initScrollReveal() {
+        const revealElements = document.querySelectorAll(".reveal-up");
+        if (!("IntersectionObserver" in window)) {
+            revealElements.forEach(el => el.classList.add("revealed"));
+            return;
+        }
+
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const delay = parseInt(el.dataset.delay || "0", 10);
+                    setTimeout(() => {
+                        el.classList.add("revealed");
+                    }, delay);
+                    obs.unobserve(el);
+                }
+            });
+        }, {
+            threshold: 0.12,
+            rootMargin: "0px 0px -40px 0px"
+        });
+
+        revealElements.forEach(el => observer.observe(el));
+    }
+
+    // B) Contadores Animados para KPIs del Hero (+25, 100%, 24/7)
+    function initAnimatedCounters() {
+        const counters = document.querySelectorAll(".metric-num[data-count]");
+        if (!counters.length) return;
+
+        const animateCounter = (el) => {
+            const target = parseInt(el.dataset.count || "0", 10);
+            const prefix = el.dataset.prefix || "";
+            const suffix = el.dataset.suffix || "";
+            const duration = 1600;
+            const startTime = performance.now();
+
+            function updateFrame(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // Ease out cubic
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const currentVal = Math.round(target * eased);
+                el.textContent = `${prefix}${currentVal}${suffix}`;
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateFrame);
+                } else {
+                    el.textContent = `${prefix}${target}${suffix}`;
+                }
+            }
+
+            requestAnimationFrame(updateFrame);
+        };
+
+        if (!("IntersectionObserver" in window)) {
+            counters.forEach(animateCounter);
+            return;
+        }
+
+        const counterObserver = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(entry.target);
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.4 });
+
+        counters.forEach(c => counterObserver.observe(c));
+    }
+
+    // C) Acordeón Interactivo de Preguntas Frecuentes (FAQ)
+    function initFaqAccordion() {
+        const faqItems = document.querySelectorAll("#faqAccordion .faq-item");
+        if (!faqItems.length) return;
+
+        faqItems.forEach((item, idx) => {
+            const btn = item.querySelector(".faq-question");
+            const answer = item.querySelector(".faq-answer");
+            if (!btn || !answer) return;
+
+            // Abrir la primera pregunta por defecto para invitar a la lectura
+            if (idx === 0) {
+                item.classList.add("active");
+                btn.setAttribute("aria-expanded", "true");
+                answer.style.maxHeight = answer.scrollHeight + "px";
+            }
+
+            btn.addEventListener("click", () => {
+                const isOpen = item.classList.contains("active");
+
+                // Cerrar los demás items abiertos
+                faqItems.forEach(other => {
+                    const otherBtn = other.querySelector(".faq-question");
+                    const otherAns = other.querySelector(".faq-answer");
+                    other.classList.remove("active");
+                    if (otherBtn) otherBtn.setAttribute("aria-expanded", "false");
+                    if (otherAns) otherAns.style.maxHeight = null;
+                });
+
+                // Si no estaba abierto, abrir el actual
+                if (!isOpen) {
+                    item.classList.add("active");
+                    btn.setAttribute("aria-expanded", "true");
+                    answer.style.maxHeight = answer.scrollHeight + "px";
+                }
+            });
+        });
+    }
+
+    // D) Barra de Progreso Superior, Botón Volver Arriba y Scroll Spy de Navegación
+    function initScrollNavigation() {
+        const scrollProgressBar = document.getElementById("scrollProgressBar");
+        const backToTopBtn = document.getElementById("backToTopBtn");
+        const mainHeader = document.getElementById("mainHeader");
+        const navLinks = document.querySelectorAll("nav ul li a.nav-link");
+        const trackedSections = Array.from(navLinks)
+            .map(link => {
+                const id = link.getAttribute("href");
+                return id && id.startsWith("#") ? document.querySelector(id) : null;
+            })
+            .filter(Boolean);
+
+        function onScrollUpdate() {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+
+            // 1. Barra de progreso
+            if (scrollProgressBar && docHeight > 0) {
+                const pct = Math.min(100, Math.max(0, (scrollTop / docHeight) * 100));
+                scrollProgressBar.style.width = `${pct}%`;
+            }
+
+            // 2. Sombra dinámica en Header
+            if (mainHeader) {
+                if (scrollTop > 30) {
+                    mainHeader.classList.add("header-scrolled");
+                } else {
+                    mainHeader.classList.remove("header-scrolled");
+                }
+            }
+
+            // 3. Botón Volver Arriba
+            if (backToTopBtn) {
+                if (scrollTop > 420) {
+                    backToTopBtn.classList.add("visible");
+                } else {
+                    backToTopBtn.classList.remove("visible");
+                }
+            }
+
+            // 4. Scroll Spy (sección activa en el menú)
+            const spyOffset = scrollTop + 160;
+            let activeSectionId = "";
+            trackedSections.forEach(sec => {
+                if (sec.offsetTop <= spyOffset) {
+                    activeSectionId = `#${sec.id}`;
+                }
+            });
+
+            navLinks.forEach(link => {
+                if (link.getAttribute("href") === activeSectionId) {
+                    link.classList.add("active");
+                } else {
+                    link.classList.remove("active");
+                }
+            });
+        }
+
+        window.addEventListener("scroll", onScrollUpdate, { passive: true });
+        onScrollUpdate();
+
+        if (backToTopBtn) {
+            backToTopBtn.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+        }
+    }
+
+    initScrollReveal();
+    initAnimatedCounters();
+    initFaqAccordion();
+    initScrollNavigation();
 
     // ==========================================================================
     // FORMULARIO DE COTIZACIÓN (WHATSAPP Y CORREO GMAIL/OUTLOOK)
